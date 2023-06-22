@@ -1,0 +1,19 @@
+{
+  "name": "courier-delivery-system-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sairayavaram009/Courier-Delivery.System.frontend.git"
+  },
+  "author": "Team2_ms_oc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend/issues"
+  },
+  "homepage": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend#readme"
+}
