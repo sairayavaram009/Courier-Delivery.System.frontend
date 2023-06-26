@@ -42,7 +42,7 @@ const router = createRouter({
     },
     {
       path: "/home",
-      name: "home",
+      name: "Landingpage",
       component: () => import("./views/HomeView.vue"),
     },
     {
