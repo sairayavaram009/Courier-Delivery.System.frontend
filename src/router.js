@@ -41,8 +41,8 @@ const router = createRouter({
       component: () => import("./views/TourList.vue"),
     },
     {
-      path: "/home",
-      name: "Landingpage",
+      path: "/landingpage",
+      name: "home",
       component: () => import("./views/HomeView.vue"),
     },
     {
