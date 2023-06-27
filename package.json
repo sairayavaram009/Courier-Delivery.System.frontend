@@ -4,7 +4,10 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "dev": "cross-env APP_ENV=development vite",
+    "build": "cross-env APP_ENV=production vite build",
+    "preview": "cross-env vite preview"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,27 @@
   "bugs": {
     "url": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend/issues"
   },
-  "homepage": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend#readme"
+  "homepage": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend#readme",
+  "dependencies": {
+    "@mdi/font": "^7.0.96",
+    "@vue/compiler-dom": "^3.3.4",
+    "axios": "^1.1.3",
+    "eslint": "^8.28.0",
+    "eslint-plugin-vue": "^9.7.0",
+    "roboto-fontface": "*",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.2",
+    "vuetify": "^3.3.0",
+    "vuex": "^4.0.2",
+    "webfontloader": "^1.6.28"
+  },
+  "devDependencies": {
+    "@mdi/js": "^7.0.96",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "vite": "^4.0.1",
+    "vite-plugin-vuetify": "^1.0.0-alpha.12",
+    "vue-cli-plugin-vuetify": "~2.5.8"
+  },
+  "type": "module"
 }
