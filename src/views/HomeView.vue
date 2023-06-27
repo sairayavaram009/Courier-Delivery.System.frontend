@@ -1,18 +1,18 @@
 <template>
-  <div class="landing-page">
+  <div class="home">
     <h1>Welcome to Courier Delivery System</h1>
-    <p>Efficient and reliable delivery services at your fingertips.</p>
+    <p>Manage your package deliveries with ease.</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'LandingPage',
+  name: 'HomeView',
 };
 </script>
 
 <style scoped>
-.landing-page {
+.home {
   text-align: center;
   margin-top: 20px;
 }

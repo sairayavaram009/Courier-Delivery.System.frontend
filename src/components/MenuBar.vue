@@ -7,7 +7,7 @@ import UserServices from "../services/UserServices";
 const router = useRouter();
 
 const user = ref(null);
-const title = ref("Travel Iternary");
+const title = ref("Courier Delivery System");
 const logoURL = ref("");
 
 onMounted(() => {
@@ -32,7 +32,7 @@ function logout() {
 <template>
   <div>
     <v-app-bar color="primary" app dark>
-      <router-link :to="{ name: 'recipes' }">
+      <router-link :to="{ name: 'dashboard' }">
         <v-img
           class="mx-2"
           :src="logoURL"
@@ -46,13 +46,11 @@ function logout() {
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn class="mx-2" :to="{ name: 'home' }">Home</v-btn>
-      <v-btn class="mx-2" :to="{ name: 'recipes' }">Tours</v-btn>
-      <v-btn v-if="user !== null" class="mx-2" :to="{ name: 'subscribe' }">Subscribers</v-btn>
+    
+      <v-btn v-if="user !== null" class="mx-2" :to="{ name: 'dashboard' }">Dashboard</v-btn>
+
       
-      <v-btn v-if="user === null" class="mx-2" :to="{ name: 'about' }">
-        About
-      </v-btn>
-      <v-btn v-if="user === null" class="mx-2" :to="{ name: 'book' }">Subscribe</v-btn>
+     
       <v-btn class="mx-2" :to="{ name: 'login' }">Login</v-btn>
 
 

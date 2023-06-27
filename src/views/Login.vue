@@ -20,12 +20,12 @@ const user = ref({
 
 onMounted(async () => {
   if (localStorage.getItem("user") !== null) {
-    router.push({ name: "recipes" });
+    router.push({ name: "dashboard" });
   }
 });
 
 function navigateToRecipes() {
-  router.push({ name: "recipes" });
+  router.push({ name: "dashboard" });
 }
 
 async function createAccount() {
@@ -52,7 +52,7 @@ async function login() {
       snackbar.value.value = true;
       snackbar.value.color = "green";
       snackbar.value.text = "Login successful!";
-      router.push({ name: "recipes" });
+      router.push({ name: "dashboard" });
     })
     .catch((error) => {
       console.log(error);

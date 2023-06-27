@@ -26,6 +26,43 @@ const router = createRouter({
       },
     },
     {
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("./views/DashboardView.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+      
+    },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("./views/DashboardView.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+      
+    },
+    {
+      path: "/scheduling",
+      name: "scheduling",
+      component: () => import("./views/scheduledelivery.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+      
+    },
+    {
+      path: "/track",
+      name: "track",
+      component: () => import("./views/TrackDelivery.vue"),
+    },
+    {
+      path: "/user-control",
+      name: "user-control",
+      component: () => import("./views/usercontrol.vue"),
+    },
+    {
       path: "/tours",
       name: "tours",
       component: () => import("./views/ToursWeoffer.vue"),
@@ -35,11 +72,7 @@ const router = createRouter({
       name: "book",
       component: () => import("../src/views/Subscribe.vue"),
     },
-    {
-      path: "/recipes",
-      name: "recipes",
-      component: () => import("./views/TourList.vue"),
-    },
+    
     {
       path: "/home",
       name: "home",
