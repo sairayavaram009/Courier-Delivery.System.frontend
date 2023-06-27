@@ -1,42 +1,52 @@
-# Travel Frontend with Vue 3
+Courier Delivery System
+This application is a Courier Delivery System that allows users to manage and track deliveries. Please follow the instructions below to set up the application.
 
-This application allows users to create and maintain recipes. Please visit https://github.com/OC-ComputerScience/recipe-backend for the backend repository.
+Prerequisites
+Node.js and npm should be installed on your machine.
+MySQL database should be set up and running.
+Project Setup
+Clone the project repository.
 
-## Project Setup
+git clone https://github.com/your-username/Courier-Delivery-System.git
+Navigate to the project directory.
+x
+cd Courier-Delivery-System
+Install the dependencies.
 
-1. Clone the project into your **XAMPP/xamppfiles/htdocs/recipeapp** directory.
 
-```
-git clone https://github.com/OC-ComputerScience/recipe-frontend.git
-```
-
-2. Install the project.
-
-```
 npm install
-```
+Configure the database connection.
 
-3. Make sure **Apache** is running.
+Rename the .env.example file to .env.
 
-   - We recommend using XAMPP to serve this project.
-   - In XAMPP, make sure that **Apache** is running.
+Open the .env file and update the following configurations with your MySQL database credentials:
 
-4. Compile and run the project locally.
+makefile
 
-```
-npm run dev
-```
+DB_HOST=localhost
+DB_USER=your-username
+DB_PASSWORD=your-password
+DB_DATABASE=your-database
+Create the necessary tables in the database.
 
-5. Open http://localhost:8081 in a browser to view the project running.
 
-6. (Optional) Compile the project for production.
+npx sequelize-cli db:migrate
+Seed the database with initial data (optional).
 
-```
-npm run build
-```
 
-7. (Optional) Lint and fix the project files.
+npx sequelize-cli db:seed:all
+Start the application.
 
-```
-npm run lint
-```
+
+npm start
+The application should now be running locally on http://localhost:3201.
+
+
+
+That's it! You have successfully set up the Courier Delivery System application. You can now use and explore the features of the application.
+
+Please note that these instructions assume you have already set up and configured a MySQL database. If you are using a different database system, make sure to update the database configurations accordingly in the .env file.
+
+Feel free to modify and customize the application according to your specific requirements.
+
+If you have any further questions or need assistance with any specific part of the application, please let me know.
