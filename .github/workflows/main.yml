@@ -3,7 +3,7 @@ name: AWS DEPLOY TO STAGING
 #turn off deploy to AWS
 on:
   pull_request:
-    types: [closed]
+    types: [closed]  
     branches:
       - dev 
 
