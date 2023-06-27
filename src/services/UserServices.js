@@ -1,26 +1,28 @@
 import apiClient from "./services";
 
 export default {
-  getUser() {
-    return apiClient.get("users");
+  getUsers() {
+    return apiClient.get("/users");
   },
   addUser(user) {
-    return apiClient.post("users", user);
+    return apiClient.post("/users", user);
   },
   loginUser(user) {
     console.log(user);
-    return apiClient.post("login", user.value, {
+    return apiClient.post("/login", user.value, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         crossDomain: true,
-        Authorization:
-          "Basic " + btoa(user.value.email + ":" + user.value.password),
+        Authorization: "Basic " + btoa(user.value.email + ":" + user.value.password),
       },
     });
   },
   logoutUser() {
-    return apiClient.post("logout");
+    return apiClient.post("/logout");
+  },
+  saveUserPermissions(users) {
+    return apiClient.put("/users/permissions", users);
   },
 };

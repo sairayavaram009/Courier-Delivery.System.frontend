@@ -1,80 +1,95 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../src/views/Login.vue';
-import SubscribersView from '../src/views/SubscribersView.vue';
-import ToursWeoffer from '../src/views/ToursWeoffer.vue';
-import ProfileSettings from '../src/views/ProfileSettings.vue';
-import TrackDelivery from '../src/views/TrackDelivery.vue';
+import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
-      redirect: '/login',
+      path: "/",
+      redirect: "/login",
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
+      path: "/login",
+      name: "login",
+      component: () => import("./views/Login.vue"),
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: () => import("./views/AboutView.vue"),
+    },
+    {
+      path: "/subscribe",
+      name: "subscribe",
+      component: () => import("./views/SubscribersView.vue"),
       meta: {
-        requiresAuth: false, // Allow access to all users, including guests
+        requiresAuth: true,
       },
     },
     {
-      path: '/subscribe',
-      name: 'subscribe',
-      component: SubscribersView,
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("./views/DashboardView.vue"),
       meta: {
-        requiresAuth: true, // Only allow access to authenticated users
-        allowedRoles: ['admin', 'cleark'], // Only allow access to users with "admin" or "cleark" role
+        requiresAuth: true,
       },
+      
     },
     {
-      path: '/tours',
-      name: 'tours',
-      component: ToursWeoffer,
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("./views/DashboardView.vue"),
       meta: {
-        requiresAuth: false, // Allow access to all users, including guests
+        requiresAuth: true,
       },
+      
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: ProfileSettings,
+      path: "/scheduling",
+      name: "scheduling",
+      component: () => import("./views/scheduledelivery.vue"),
       meta: {
-        requiresAuth: true, // Only allow access to authenticated users
-        allowedRoles: ['admin'], // Only allow access to users with "admin" role
+        requiresAuth: true,
       },
+      
     },
     {
-      path: '/track',
-      name: 'track',
-      component: TrackDelivery,
-      meta: {
-        requiresAuth: true, // Only allow access to authenticated users
-        allowedRoles: ['admin', 'user', 'guest'], // Allow access to users with "admin", "user", or "guest" role
-      },
+      path: "/track",
+      name: "track",
+      component: () => import("./views/TrackDelivery.vue"),
+    },
+    {
+      path: "/user-control",
+      name: "user-control",
+      component: () => import("./views/usercontrol.vue"),
+    },
+    {
+      path: "/tours",
+      name: "tours",
+      component: () => import("./views/ToursWeoffer.vue"),
+    },
+    {
+      path: "/book",
+      name: "book",
+      component: () => import("../src/views/Subscribe.vue"),
+    },
+    
+    {
+      path: "/home",
+      name: "home",
+      component: () => import("./views/HomeView.vue"),
+    },
+    {
+      path: "/recipe/:id",
+      name: "editRecipe",
+      props: true,
+      component: () => import("../src/views/EditTour.vue"),
+    },
+    {
+      path: "/ingredients",
+      name: "ingredients",
+      component: () => import("./views/AttractionsList.vue"),
     },
   ],
-});
-
-// Navigation guard to check authentication and role before accessing routes with requiresAuth meta field
-router.beforeEach((to, from, next) => {
-  const requiresAuth = to.meta.requiresAuth;
-  const allowedRoles = to.meta.allowedRoles;
-  const isAuthenticated = /* Add your authentication check logic here */;
-  const userRole = /* Get the user's role from your user object or authentication state */;
-
-  if (requiresAuth && !isAuthenticated) {
-    // Redirect to login if the route requires authentication and the user is not authenticated
-    next({ name: 'login' });
-  } else if (requiresAuth && allowedRoles && !allowedRoles.includes(userRole)) {
-    // Redirect to unauthorized page if the user's role is not allowed for the route
-    next({ name: 'unauthorized' });
-  } else {
-    // Proceed to the route
-    next();
-  }
 });
 
 export default router;

@@ -20,12 +20,12 @@ const user = ref({
 
 onMounted(async () => {
   if (localStorage.getItem("user") !== null) {
-    router.push({ name: "recipes" });
+    router.push({ name: "dashboard" });
   }
 });
 
 function navigateToRecipes() {
-  router.push({ name: "recipes" });
+  router.push({ name: "dashboard" });
 }
 
 async function createAccount() {
@@ -52,7 +52,7 @@ async function login() {
       snackbar.value.value = true;
       snackbar.value.color = "green";
       snackbar.value.text = "Login successful!";
-      router.push({ name: "recipes" });
+      router.push({ name: "dashboard" });
     })
     .catch((error) => {
       console.log(error);
@@ -103,6 +103,18 @@ function closeSnackBar() {
         </v-card-actions>
       </v-card>
 
+      <v-card class="rounded-lg elevation-5 my-8">
+        <v-card-title class="text-center headline">
+          <v-btn
+            class="ml-2"
+            variant="flat"
+            color="secondary"
+            @click="navigateToRecipes()"
+          >
+            View More
+          </v-btn>
+        </v-card-title>
+      </v-card>
 
       <v-dialog persistent v-model="isCreateAccount" width="800">
         <v-card class="rounded-lg elevation-5">

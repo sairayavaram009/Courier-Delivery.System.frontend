@@ -1,69 +1,83 @@
 <template>
-    <div>
-      <h1>Profile Settings</h1>
-      <form @submit="updateProfile">
-        <div>
-          <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" v-model="user.firstName" required>
-        </div>
-        <div>
-          <label for="lastName">Last Name:</label>
-          <input type="text" id="lastName" v-model="user.lastName" required>
-        </div>
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="user.email" required>
-        </div>
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="user.password" required>
-        </div>
-        <button type="submit">Update Profile</button>
+    <div class="track-delivery">
+      <h1>Tracking Page</h1>
+      <form @submit.prevent="submitTracking">
+        <input type="text" v-model="trackingNumber" placeholder="Enter Tracking Number" maxlength="10" />
+        <button type="submit">Track</button>
       </form>
+      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <div v-if="trackingResult" class="tracking-result">
+        <h2>Tracking Result:</h2>
+        <p>Tracking Number: {{ trackingResult.trackingNumber }}</p>
+        <p>Status: {{ trackingResult.status }}</p>
+        <p>Location: {{ trackingResult.location }}</p>
+        <!-- Display other tracking details as needed -->
+      </div>
     </div>
   </template>
   
   <script>
+  import TrackService from "../services/TrackService.js";
+  
   export default {
     data() {
       return {
-        user: {
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: ""
-        }
+        trackingNumber: "",
+        errorMessage: "",
+        trackingResult: null,
       };
     },
     methods: {
-      updateProfile() {
-        // Call your API or perform the necessary actions to update the user's profile
-        // You can access the updated user data using `this.user` in this method
-        console.log("Profile updated:", this.user);
-      }
-    }
+      async submitTracking() {
+        try {
+          this.errorMessage = "";
+          this.trackingResult = null;
+  
+          // Call the trackDelivery method from your service
+          const result = await TrackService.trackDelivery(this.trackingNumber);
+          this.trackingResult = result;
+        } catch (error) {
+          this.errorMessage = error.message;
+        }
+      },
+    },
   };
   </script>
   
   <style scoped>
-  h1 {
-    font-size: 24px;
-    margin-bottom: 16px;
+  .track-delivery {
+    text-align: center;
+    margin-top: 20px;
   }
+  
   form {
-    display: grid;
-    grid-gap: 8px;
-    max-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
   }
-  label {
-    font-weight: bold;
+  
+  input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
   }
-  input {
-    width: 100%;
-    padding: 4px;
+  
+  button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
   }
-  button {
-    padding: 8px 16px;
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .tracking-result {
+    margin-top: 20px;
   }
   </style>
   
