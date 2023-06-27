@@ -21,16 +21,9 @@
                 <option value="delivery">Delivery Boy</option>
               </select>
             </td>
-            <td>
-              <button @click="editUser(user)" class="edit-button">Edit Permissions</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button @click="savePermissions" class="save-button">Save</button>
-    </div>
-  </template>
-  
+           
+            
+            
   <script>
   import UserServices from "../services/UserServices";
   
