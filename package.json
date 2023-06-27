@@ -1,11 +1,24 @@
 {
-  "name": "recipe-frontend",
-  "version": "0.0.0",
+  "name": "courier-delivery-system-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
   "scripts": {
+    "test": "npm test",
     "dev": "cross-env APP_ENV=development vite",
     "build": "cross-env APP_ENV=production vite build",
     "preview": "cross-env vite preview"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sairayavaram009/Courier-Delivery.System.frontend.git"
+  },
+  "author": "Team2_ms_oc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend/issues"
+  },
+  "homepage": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend#readme",
   "dependencies": {
     "@mdi/font": "^7.0.96",
     "@vue/compiler-dom": "^3.3.4",
@@ -28,21 +41,4 @@
     "vue-cli-plugin-vuetify": "~2.5.8"
   },
   "type": "module"
-  "name": "courier-delivery-system-frontend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "test": "npm test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sairayavaram009/Courier-Delivery.System.frontend.git"
-  },
-  "author": "Team2_ms_oc",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend/issues"
-  },
-  "homepage": "https://github.com/sairayavaram009/Courier-Delivery.System.frontend#readme"
 }
