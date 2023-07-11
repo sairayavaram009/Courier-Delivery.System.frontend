@@ -52,6 +52,7 @@ function logout() {
       
      
       <v-btn class="mx-2" :to="{ name: 'login' }">Login</v-btn>
+      <v-btn class="mx-2" :to="{ name: 'track' }">Track</v-btn>
 
 
      
