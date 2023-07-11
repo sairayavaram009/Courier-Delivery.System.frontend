@@ -1,83 +1,167 @@
+<script setup>
+import { onMounted } from "vue";
+import { ref } from "vue";
+import RecipeCard from "../components/TourCardComponent.vue";
+import RecipeServices from "../services/TourServices.js";
+
+const recipes = ref([]);
+const isAdd = ref(false);
+const user = ref(null);
+const snackbar = ref({
+  value: false,
+  color: "",
+  text: "",
+});
+const newRecipe = ref({
+  name: "",
+  description: "",
+  servings: 0,
+  time: "30",
+  isPublished: false,
+});
+
+onMounted(async () => {
+  await getRecipes();
+  user.value = JSON.parse(localStorage.getItem("user"));
+});
+
+async function getRecipes() {
+  user.value = JSON.parse(localStorage.getItem("user"));
+  if (user.value !== null && user.value.id !== null) {
+    await RecipeServices.getRecipesByUserId(user.value.id)
+      .then((response) => {
+        recipes.value = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        snackbar.value.value = true;
+        snackbar.value.color = "error";
+        snackbar.value.text = error.response.data.message;
+      });
+  } else {
+    await RecipeServices.getRecipes()
+      .then((response) => {
+        recipes.value = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        snackbar.value.value = true;
+        snackbar.value.color = "error";
+        snackbar.value.text = error.response.data.message;
+      });
+  }
+}
+
+async function addRecipe() {
+  isAdd.value = false;
+  newRecipe.value.userId = user.value.id;
+  await RecipeServices.addRecipe(newRecipe.value)
+    .then(() => {
+      snackbar.value.value = true;
+      snackbar.value.color = "green";
+      snackbar.value.text = `${newRecipe.value.name} added successfully!`;
+    })
+    .catch((error) => {
+      console.log(error);
+      snackbar.value.value = true;
+      snackbar.value.color = "error";
+      snackbar.value.text = error.response.data.message;
+    });
+  await getRecipes();
+}
+
+function openAdd() {
+  isAdd.value = true;
+}
+
+function closeAdd() {
+  isAdd.value = false;
+}
+
+function closeSnackBar() {
+  snackbar.value.value = false;
+}
+</script>
+
 <template>
-    <div class="track-delivery">
-      <h1>Tracking Page</h1>
-      <form @submit.prevent="submitTracking">
-        <input type="text" v-model="trackingNumber" placeholder="Enter Tracking Number" maxlength="10" />
-        <button type="submit">Track</button>
-      </form>
-      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-      <div v-if="trackingResult" class="tracking-result">
-        <h2>Tracking Result:</h2>
-        <p>Tracking Number: {{ trackingResult.trackingNumber }}</p>
-        <p>Status: {{ trackingResult.status }}</p>
-        <p>Location: {{ trackingResult.location }}</p>
-        <!-- Display other tracking details as needed -->
-      </div>
+  <v-container>
+    <div id="body">
+      <v-row align="center" class="mb-4">
+        <v-col cols="10"
+          ><v-card-title class="pl-0 text-h4 font-weight-bold"
+            >Deliverys
+          </v-card-title>
+        </v-col>
+        <v-col class="d-flex justify-end" cols="2">
+          <v-btn v-if="user !== null" color="accent" @click="openAdd()"
+            >Add</v-btn
+          >
+        </v-col>
+      </v-row>
+
+      <RecipeCard
+        v-for="recipe in recipes"
+        :key="recipe.id"
+        :recipe="recipe"
+        @deletedList="getLists()"
+      />
+
+      <v-dialog persistent v-model="isAdd" width="800">
+        <v-card class="rounded-lg elevation-5">
+          <v-card-title class="headline mb-2">Add Tour </v-card-title>
+          <v-card-text>
+            <v-text-field
+              v-model="newRecipe.name"
+              label="Name"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model.number="newRecipe.servings"
+              label="Price"
+              type="number" 
+            ></v-text-field>
+            <v-text-field
+              v-model.number="newRecipe.time"
+              label="Days"
+              type="number"
+            ></v-text-field>
+
+            <v-textarea
+              v-model="newRecipe.description"
+              label="Description"
+            ></v-textarea>
+            <v-switch
+              v-model="newRecipe.isPublished"
+              hide-details
+              inset
+              :label="`Publish? ${newRecipe.isPublished ? 'Yes' : 'No'}`"
+            ></v-switch>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn variant="flat" color="secondary" @click="closeAdd()"
+              >Close</v-btn
+            >
+            <v-btn variant="flat" color="primary" @click="addRecipe()"
+              >Add Tour</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-snackbar v-model="snackbar.value" rounded="pill">
+        {{ snackbar.text }}
+
+        <template v-slot:actions>
+          <v-btn
+            :color="snackbar.color"
+            variant="text"
+            @click="closeSnackBar()"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
     </div>
-  </template>
-  
-  <script>
-  import TrackService from "../services/TrackService.js";
-  
-  export default {
-    data() {
-      return {
-        trackingNumber: "",
-        errorMessage: "",
-        trackingResult: null,
-      };
-    },
-    methods: {
-      async submitTracking() {
-        try {
-          this.errorMessage = "";
-          this.trackingResult = null;
-  
-          // Call the trackDelivery method from your service
-          const result = await TrackService.trackDelivery(this.trackingNumber);
-          this.trackingResult = result;
-        } catch (error) {
-          this.errorMessage = error.message;
-        }
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .track-delivery {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  form {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  input[type="text"] {
-    padding: 10px;
-    font-size: 16px;
-  }
-  
-  button[type="submit"] {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .error-message {
-    color: red;
-    margin-top: 10px;
-  }
-  
-  .tracking-result {
-    margin-top: 20px;
-  }
-  </style>
-  
+  </v-container>
+</template>
