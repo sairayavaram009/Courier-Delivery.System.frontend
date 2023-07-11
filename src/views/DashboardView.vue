@@ -4,7 +4,6 @@
       <p>This is the dashboard view of your application.</p>
   
       <div class="buttons">
-        <router-link to="/track" class="button">Tracking</router-link>
         <router-link to="/scheduling" class="button">Schedule Delivery</router-link>
         <router-link to="/user-control" class="button">User Control</router-link>
       </div>

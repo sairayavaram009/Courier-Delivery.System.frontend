@@ -103,18 +103,6 @@ function closeSnackBar() {
         </v-card-actions>
       </v-card>
 
-      <v-card class="rounded-lg elevation-5 my-8">
-        <v-card-title class="text-center headline">
-          <v-btn
-            class="ml-2"
-            variant="flat"
-            color="secondary"
-            @click="navigateToRecipes()"
-          >
-            View More
-          </v-btn>
-        </v-card-title>
-      </v-card>
 
       <v-dialog persistent v-model="isCreateAccount" width="800">
         <v-card class="rounded-lg elevation-5">

@@ -49,10 +49,10 @@ function logout() {
     
       <v-btn v-if="user !== null" class="mx-2" :to="{ name: 'dashboard' }">Dashboard</v-btn>
 
-      
+         <v-btn class="null" :to="{ name: 'track' }">Track</v-btn>
      
-      <v-btn class="mx-2" :to="{ name: 'login' }">Login</v-btn>
-      <v-btn class="mx-2" :to="{ name: 'track' }">Track</v-btn>
+      <v-btn class="mx-2" :to="{ name: 'login' }">Dashboard</v-btn>
+   
 
 
      

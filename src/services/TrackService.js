@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://your-api-url.com"; // Replace with your API base URL
+const API_BASE_URL = "http://localhost:3201/courierapi"; // Replace with your API base URL
 
 export default {
   async trackDelivery(trackingNumber) {

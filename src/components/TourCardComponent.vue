@@ -51,21 +51,18 @@ function navigateToEdit() {
 </script>
 
 <template>
-  <v-card
-    class="rounded-lg elevation-5 mb-8"
-    @click="showDetails = !showDetails"
-  >
+  <v-card class="rounded-lg elevation-5 mb-8" @click="showDetails = !showDetails">
     <v-card-title class="headline">
       <v-row align="center">
         <v-col cols="10">
-          {{ recipe.name }}
+          {{ props.recipe.name }}
           <v-chip class="ma-2" color="primary" label>
-            <v-icon start icon="mdi-currency-usd"></v-icon>
-            {{ recipe.servings }} 
+            <v-icon size="small" left>mdi-currency-usd</v-icon>
+            {{ props.recipe.servings }}
           </v-chip>
           <v-chip class="ma-2" color="accent" label>
-            <v-icon start icon="mdi-clock-outline"></v-icon>
-            {{ recipe.time }} Number of days
+            <v-icon size="small" left>mdi-clock-outline</v-icon>
+            {{ props.recipe.time }} Number of days
           </v-chip>
         </v-col>
         <v-col class="d-flex justify-end">
@@ -73,60 +70,41 @@ function navigateToEdit() {
             v-if="user !== null"
             size="small"
             icon="mdi-pencil"
-            @click="navigateToEdit()"
+            @click="navigateToEdit"
           ></v-icon>
         </v-col>
       </v-row>
     </v-card-title>
     <v-card-text class="body-1">
-      {{ recipe.description }}
+      {{ props.recipe.description }}
     </v-card-text>
     <v-expand-transition>
       <v-card-text class="pt-0" v-show="showDetails">
-    
         <v-list>
-          <v-list-item
-            v-for="recipeIngredient in recipeIngredients"
-            :key="recipeIngredient.id"
-          >
-            <b
-              >{{ recipeIngredient.quantity }}
-              {{
-                `${recipeIngredient.ingredient.unit}${
-                  recipeIngredient.quantity > 1 ? "s" : ""
-                }`
-              }}</b
-            >
-            of {{ recipeIngredient.ingredient.name }} (${{
-              recipeIngredient.ingredient.pricePerUnit
-            }}/{{ recipeIngredient.ingredient.unit }})
+          <v-list-item v-for="recipeIngredient in recipeIngredients" :key="recipeIngredient.id">
+            <b>{{ recipeIngredient.quantity }} {{ recipeIngredient.ingredient.unit }}{{ recipeIngredient.quantity > 1 ? "s" : "" }}</b> of {{ recipeIngredient.ingredient.name }} (${{ recipeIngredient.ingredient.pricePerUnit }}/{{ recipeIngredient.ingredient.unit }})
           </v-list-item>
         </v-list>
-        <h3>Attractions</h3>
-        <v-table>
-          <thead>
-            <tr>
-              <th class="text-left">NO</th>
-              <th class="text-left">Trip Overview</th>
-              <th class="text-left">Discription</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="step in recipeSteps" :key="step.id">
-              <td>{{ step.stepNumber }}</td>
-              <td>{{ step.instruction }}</td>
-              <td>
-                <v-chip
-                  size="small"
-                  v-for="ingredient in step.recipeIngredient"
-                  :key="ingredient.id"
-                  pill
-                  >{{ ingredient.ingredient.name }}</v-chip
-                >
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
+        <v-simple-table>
+          <template #default>
+            <thead>
+              <tr>
+                <th>Step Number</th>
+                <th>Instruction</th>
+                <th>Ingredients</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="step in recipeSteps" :key="step.id">
+                <td>{{ step.stepNumber }}</td>
+                <td>{{ step.instruction }}</td>
+                <td>
+                  <v-chip size="small" v-for="ingredient in step.recipeIngredient" :key="ingredient.id" pill>{{ ingredient.ingredient.name }}</v-chip>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
       </v-card-text>
     </v-expand-transition>
   </v-card>
