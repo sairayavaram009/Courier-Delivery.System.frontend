@@ -31,6 +31,6 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "dist/"
-          REMOTE_HOST: "ec2-34-201-135-2.compute-1.amazonaws.com"
+          REMOTE_HOST: "ec2-34-228-113-67.compute-1.amazonaws.com"
           REMOTE_USER: ubuntu
           TARGET: "/var/www/html/courier-frontend"
