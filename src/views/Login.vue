@@ -11,12 +11,18 @@ const snackbar = ref({
   color: "",
   text: "",
 });
+const role = ref("ADMIN")
 const user = ref({
   firstName: "",
   lastName: "",
   email: "",
   password: "",
+  mobile: ""
 });
+
+const roleOptions =  [
+        "Admin","Clerk","Delivery Boy"
+      ]
 
 onMounted(async () => {
   if (localStorage.getItem("user") !== null) {
@@ -24,16 +30,21 @@ onMounted(async () => {
   }
 });
 
-function navigateToRecipes() {
-  router.push({ name: "dashboard" });
+const getRoleId = () => {
+  if(role.value === "Admin") return 1
+  if(role.value === "Clerk") return 2
+  return 3
 }
 
 async function createAccount() {
-  await UserServices.addUser(user.value)
-    .then(() => {
+  await UserServices.addUser({...user.value, role_id: getRoleId()})
+    .then((res) => {
       snackbar.value.value = true;
       snackbar.value.color = "green";
-      snackbar.value.text = "Account created successfully!";
+      if(res.data.is_verified == 0)
+        snackbar.value.text = "Account created successfully, Please contact Admin to verify your Account!";
+      else
+        snackbar.value.text = "Account created successfully!";
       router.push({ name: "login" });
     })
     .catch((error) => {
@@ -52,7 +63,7 @@ async function login() {
       snackbar.value.value = true;
       snackbar.value.color = "green";
       snackbar.value.text = "Login successful!";
-      router.push({ name: "dashboard" });
+      router.push({ name: "home" });
     })
     .catch((error) => {
       console.log(error);
@@ -103,19 +114,6 @@ function closeSnackBar() {
         </v-card-actions>
       </v-card>
 
-      <v-card class="rounded-lg elevation-5 my-8">
-        <v-card-title class="text-center headline">
-          <v-btn
-            class="ml-2"
-            variant="flat"
-            color="secondary"
-            @click="navigateToRecipes()"
-          >
-            View More
-          </v-btn>
-        </v-card-title>
-      </v-card>
-
       <v-dialog persistent v-model="isCreateAccount" width="800">
         <v-card class="rounded-lg elevation-5">
           <v-card-title class="headline mb-2">Create Account </v-card-title>
@@ -137,12 +135,22 @@ function closeSnackBar() {
               label="Email"
               required
             ></v-text-field>
-
+            <v-text-field
+              v-model="user.phoneNumber"
+              label="Mobile"
+              required
+            ></v-text-field>
             <v-text-field
               v-model="user.password"
               label="Password"
               required
             ></v-text-field>
+             <v-select
+                v-model="role"
+                label="Role"
+                :items="roleOptions"
+                required
+              ></v-select>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
