@@ -13,7 +13,7 @@ export default () => {
     plugins: [vue(), vuetify({ autoImport: true })],
 
     server: {
-      host: "ec2-34-201-135-2.compute-1.amazonaws.com",
+      host: "localhost",
       port: 8081,
     },
     base: baseURL,
