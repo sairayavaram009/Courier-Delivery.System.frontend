@@ -25,4 +25,7 @@ export default {
   saveUserPermissions(users) {
     return apiClient.put("/users/permissions", users);
   },
+  updateUser(user) {
+    return apiClient.put("users/" + user.id, user);
+  },
 };

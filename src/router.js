@@ -10,84 +10,57 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: () => import("./views/Login.vue"),
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: () => import("./views/AboutView.vue"),
-    },
-    {
-      path: "/subscribe",
-      name: "subscribe",
-      component: () => import("./views/SubscribersView.vue"),
-      meta: {
-        requiresAuth: true,
-      },
+      component: () => import("./views/Login.vue")
     },
     {
       path: "/dashboard",
       name: "dashboard",
-      component: () => import("./views/DashboardView.vue"),
-      meta: {
-        requiresAuth: true,
-      },
-      
+      component: () => import("./views/Dashboard.vue")
     },
     {
-      path: "/dashboard",
-      name: "dashboard",
-      component: () => import("./views/DashboardView.vue"),
-      meta: {
-        requiresAuth: true,
-      },
-      
-    },
-    {
-      path: "/scheduling",
+      path: "/add-delivery-request",
       name: "scheduling",
-      component: () => import("./views/scheduledelivery.vue"),
-      meta: {
-        requiresAuth: true,
-      },
-      
+      component: () => import("./views/Scheduledelivery.vue")
     },
     {
-      path: "/track",
-      name: "track",
-      component: () => import("./views/TrackDelivery.vue"),
+      path: "/customers",
+      name: "customers",
+      component: () => import("./views/Customers.vue")
     },
     {
-      path: "/user-control",
-      name: "user-control",
-      component: () => import("./views/usercontrol.vue"),
+      path: "/create-customer",
+      name: "createCustomer",
+      component: () => import("./views/CreateCustomer.vue")
     },
     {
-      path: "/tours",
-      name: "tours",
-      component: () => import("./views/ToursWeoffer.vue"),
+      path: "/couriers",
+      name: "couriers",
+      component: () => import("./views/Couriers.vue")
     },
     {
-      path: "/book",
-      name: "book",
-      component: () => import("../src/views/Subscribe.vue"),
-    },
-    
-    {
-      path: "/home",
-      name: "home",
-      component: () => import("./views/HomeView.vue"),
+      path: "/create-courier",
+      name: "createcourier",
+      component: () => import("./views/Createcourier.vue")
     },
     {
-      path: "/recipe/:id",
-      name: "editRecipe",
-      props: true,
-      component: () => import("../src/views/EditTour.vue"),
+      path: "/users",
+      name: "users",
+      component: () => import("./views/Users.vue")
     },
     {
-      path: "/ingredients",
-      name: "ingredients",
-      component: () => import("./views/AttractionsList.vue"),
+      path: "/create-user",
+      name: "createUser",
+      component: () => import("./views/CreateUser.vue")
+    },
+    {
+      path: "/delivery-requests",
+      name: "deliveryRequests",
+      component: () => import("./views/DeliveryRequests.vue")
+    },
+    {
+      path: "/delivery-requests/:filter",
+      name: "deliveryRequests",
+      component: () => import("./views/DeliveryRequests.vue")
     },
   ],
 });
