@@ -45,7 +45,7 @@ async function addCustomer() {
     isLoader.value = true
     await CustomerServices.updateCustomer({...customer.value})
         .then((response) => {
-            snackbar.value = updateSnackBar("Customer is created successfully!","green")
+            snackbar.value = updateSnackBar("Customer is updated successfully!","green")
             isLoader.value = false
         })
         .catch((error) => {
@@ -69,6 +69,9 @@ async function addCustomer() {
           <TextField class="md-3" id="name" title="First Name" :value="customer.name" @update:value="customer.name = $event"/>
           <TextField class="md-3" id="contact" title="Contact Number" :value="customer.contact" @update:value="customer.contact = $event"/>
           <TextField class="md-3" id="email" title="Email" :value="customer.email" @update:value="customer.email = $event"/>
+          <TextField class="md-3" id="street" title="Street" :value="customer.street" @update:value="customer.street = $event"/>
+          <TextField class="md-3" id="avenue" title="Avenue" :value="customer.avenue" @update:value="customer.avenue = $event"/>
+
           <div style="margin-top:10px"/>
         </v-card-text>
         <v-card-actions>

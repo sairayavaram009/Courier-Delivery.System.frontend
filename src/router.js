@@ -23,6 +23,11 @@ const router = createRouter({
       component: () => import("./views/Scheduledelivery.vue")
     },
     {
+      path: "/companies",
+      name: "companies",
+      component: () => import("./views/Companies.vue")
+    },
+    {
       path: "/customers",
       name: "customers",
       component: () => import("./views/Customers.vue")
@@ -40,7 +45,7 @@ const router = createRouter({
     {
       path: "/create-courier",
       name: "createcourier",
-      component: () => import("./views/CreateCourier.vue")
+      component: () => import("./views/Createcourier.vue")
     },
     {
       path: "/users",
