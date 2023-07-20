@@ -6,8 +6,7 @@ dns.setDefaultResultOrder("verbatim");
 import vuetify from "vite-plugin-vuetify";
 
 export default () => {
-  const baseURL =
-    process.env.APP_ENV ===  "/";
+  const baseURL = "/";
 
   return defineConfig({
     plugins: [vue(), vuetify({ autoImport: true })],
