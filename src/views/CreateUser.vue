@@ -49,7 +49,7 @@ async function addUser() {
   }
   else {
     isLoader.value = true
-    await UserServices.addUser({...user.value,company_id: loggedInUser.value.company_id || 1, role_id: user.value.role_id == "ADMIN" ? 1 : 2})
+    await UserServices.addUser({...user.value,company_id: loggedInUser.value.company_id || 1, role_id: user.value.role_id == "ADMIN" ? 1 : "CLERK" ? 2 : 3})
         .then((response) => {
             snackbar.value = updateSnackBar("User is created successfully!","green")
             isLoader.value = false
@@ -79,7 +79,7 @@ async function addUser() {
           <v-select
             label="Select Role"
             v-model="user.role_id"
-            :items="['ADMIN', 'CLERK']"
+            :items="['ADMIN', 'CLERK', 'COURIER BOY']"
             ></v-select>
           <div style="margin-top:10px"/>
         </v-card-text>
