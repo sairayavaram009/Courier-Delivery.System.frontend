@@ -2,8 +2,11 @@
   RewriteEngine On
   RewriteBase /
 
-  # Handle requests for the bundle files
+  # Handle requests to the root (index.html)
+  RewriteRule ^$ index.html [L]
+
+  # Handle requests to existing files or directories
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(.*)$ /index.html [L]
+  RewriteRule ^(.*)$ index.html [QSA,L]
 </IfModule>
