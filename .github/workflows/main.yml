@@ -33,4 +33,4 @@ jobs:
           SOURCE: "dist/"
           REMOTE_HOST: "ec2-18-209-4-119.compute-1.amazonaws.com"
           REMOTE_USER: ubuntu
-          TARGET: "/var/www/html/courier-frontend"
+          TARGET: "/var/www/html/"
