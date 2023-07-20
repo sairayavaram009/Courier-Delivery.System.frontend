@@ -133,11 +133,10 @@ const delivered = async() => {
                  <tr v-if="deliveryRequest.customer_details" >
                  <th>Customer Details</th>
                 <td> 
-                    <p> Name - {{ deliveryRequest.customer_details.first_name}} {{ deliveryRequest.customer_details.last_name}} <br/>
+                    <p> Name - {{ deliveryRequest.customer_details.name}}<br/>
                      Email - {{ deliveryRequest.customer_details.email}} <br/>
-                     Mobile - {{ deliveryRequest.customer_details.mobile}} <br/>
-                     Address - {{ deliveryRequest.customer_details.address}} <br/>
-                     Apt Number - {{ deliveryRequest.customer_details.apartment_number}} </p>
+                     Mobile - {{ deliveryRequest.customer_details.contact}} <br/>
+                     Address - {{ deliveryRequest.customer_details.avenue }} Avenue, {{ deliveryRequest.customer_details.avenue }} Street <br/></p>
                 </td>
                 </tr>
                 <tr>
@@ -145,16 +144,14 @@ const delivered = async() => {
                 <td> 
                     <p> Name - {{ deliveryRequest.placed_by_details.firstName}} {{ deliveryRequest.placed_by_details.lastName}} <br/>
                      Email - {{ deliveryRequest.placed_by_details.email}} <br/>
-                     Mobile - {{ deliveryRequest.placed_by_details.mobile}} <br/>
                     </p>
                 </td>
                 </tr>
                 <tr v-if="deliveryRequest.courier_details">
                 <th>Courier Details</th>
                 <td> 
-                    <p> Name - {{ deliveryRequest.courier_details.name}} <br/>
+                    <p> Name - {{ deliveryRequest.courier_details.firstName}} {{ deliveryRequest.courier_details.lastName}} <br/>
                      Email - {{ deliveryRequest.courier_details.email}} <br/>
-                     Contact - {{ deliveryRequest.courier_details.contact}} <br/>
                     </p>
                 </td>
                 </tr>

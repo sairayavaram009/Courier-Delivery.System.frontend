@@ -140,7 +140,7 @@ watch(
                     <th scope="col">Pickup Address</th>
                     <th scope="col">Delivery Address</th>
                     <th scope="col">Cost</th>
-                    <th scope="col">Courier</th>
+                    <!-- <th scope="col">Courier</th> -->
                     <th scope="col">Operations</th>
                     </tr>
                 </thead>
@@ -151,8 +151,8 @@ watch(
                     <td>{{ request.pickup_address }}</td>
                     <td>{{ request.delivery_address }}</td>
                     <td> {{ request.price }} </td>
-                    <td v-if="request.courier_id"> {{ request.courier_details.email }} </td>
-                    <td v-else> Not Assigned </td>
+                    <!-- <td v-if="request.courier_id"> {{ request.courier_details.email }} </td> -->
+                    <!-- <td v-else> Not Assigned </td> -->
                     <td v-if="user && user.role_id != 3">
                         <div class="btn-group" role="group">
                              <v-dialog v-model="updateDialogs[index]" fullscreen  :scrim="false"  transition="dialog-bottom-transition" >
