@@ -1,0 +1,195 @@
+<script setup>
+import { onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
+import CompanyServices from "../services/CompanyServices.js";
+import { ref } from "vue";
+import Loader from "../components/Loader.vue";
+import ViewSnackBar from "../components/ViewSnackBar.vue";
+import { updateSnackBar } from "../common"
+import CreateCompany from "./CreateCompany.vue"
+import UpdateCompany from "./UpdateCompany.vue"
+
+const companies = ref([]);
+const loader = ref(true);
+const user = ref(null);
+const router = useRouter();
+const type = router.currentRoute.value.params.type
+const snackbar = ref({
+  value: false,
+  color: "",
+  text: "",
+});
+const createDialog = ref(false)
+const updateDialogs = ref([])
+onMounted(async () => {
+   user.value = JSON.parse(localStorage.getItem("user"));
+  if(!user.value) {
+    router.push({ name: "login" });
+  }
+  await getCompanies();
+  loader.value = false;
+});
+
+async function getCompanies() {
+  await CompanyServices.getCompanies()
+    .then((res) => {
+      companies.value = res.data;
+      updateDialogs.value = new Array(res.data.length).fill(false);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+const deleteCompany = async(id,index) => {
+  await CompanyServices.deleteCompany(id)
+    .then((res) => {
+      companies.value.splice(index, 1);
+      snackbar.value = updateSnackBar("Company is deleted successfully!","green")
+    })
+    .catch((error) => {
+      console.log(error);
+      snackbar.value = updateSnackBar(error.response.data.message)
+    });
+}
+</script>
+
+<template>
+<v-container>
+  <div class="container" style="margin-top: 10px">
+     <v-row justify="end">
+    <v-dialog
+      v-model="createDialog"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+      <template v-slot:activator="{ props }">
+         <v-btn
+        class="ma-2"
+        color="primary"
+        style="margin-left:auto;"
+        v-bind="props"
+      >
+        <v-icon
+          start
+          icon="mdi-plus-circle"
+        ></v-icon>
+        Create Company
+      </v-btn>
+      </template>
+      <v-card>
+        <v-toolbar
+          dark
+          color="primary"
+        >
+          <v-btn
+            icon
+            dark
+            @click="createDialog = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Create Company</v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+        <v-divider></v-divider>
+        <CreateCompany />
+      </v-card>
+    </v-dialog>
+  </v-row>
+    <div style="display: flex; justify-content: center;">
+      <h2>Companies</h2>
+    </div>
+    <br/>
+    <Loader v-if="loader" />
+    <div class="col-md-12 container elevation-4 companies" v-else-if="companies.length != 0">
+             <v-table class="table" style="background-color: #FFFFFF;" height="450px">
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Contact Number</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(company,index) in companies" :key="index" >
+                    <th scope="row">{{ index+1 }}</th>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.contact }}</td>
+                    <td>{{ company.email }}</td>
+                    <td>{{ company.avenue }} Avenue, {{ company.street }} Street</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                             <v-dialog v-model="updateDialogs[index]" fullscreen  :scrim="false"  transition="dialog-bottom-transition" >
+                                <template v-slot:activator="{ props }">
+                                    <v-btn class="ma-2" color="primary" style="margin-left:auto;" v-bind="props"> Update</v-btn>
+                                </template>
+                                <v-card>
+                                    <v-toolbar dark color="primary">
+                                    <v-btn icon dark @click="updateDialogs[index] = false">
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                    <v-toolbar-title>Update Company</v-toolbar-title>
+                                    <v-spacer></v-spacer>
+                                    </v-toolbar>
+                                    <v-divider></v-divider>
+                                    <UpdateCompany :company="company" />
+                                </v-card>
+                                </v-dialog>
+                            <!-- <v-btn class="ma-2" color="secondary" style="margin-left:auto;" @click="deleteCompany(company.id,index)"> Delete</v-btn> -->
+                        </div>         
+                    </td>
+                    </tr>
+                </tbody>
+                </v-table>
+          </div>
+      <div class="text-center" v-else>
+      <h4 class="text-primary">No Companies are available</h4> 
+    </div>
+    </div>
+    <ViewSnackBar :snackbar="snackbar"/>
+  <br/>
+</v-container>
+
+</template>
+
+<style scoped>
+
+.getplan {
+    color: #FFFFFF;
+    background-color: #80162B;
+}
+.companies {
+  padding: 30px;
+  background-color: #FFFFFF;
+}
+.btn-danger {
+  margin-left: 20px;
+}
+.companies{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.add {
+    background-color: #1E73BE ;
+    margin-left: 20px;
+    padding-top: -10px;
+    color: #FFFFFF;
+}
+.update {
+  background-color: #1E73BE;
+  color: #FFFFFF;
+}
+.delete {
+  background-color: #dc3545;
+  color: #FFFFFF;
+}
+.search {
+  margin-left: 70%;
+  width: 30%;
+}
+</style>
