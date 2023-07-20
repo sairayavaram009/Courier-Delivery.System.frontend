@@ -45,7 +45,7 @@ const router = createRouter({
     {
       path: "/create-courier",
       name: "createcourier",
-      component: () => import("./views/Createcourier.vue")
+      component: () => import("./views/CreateCourier.vue")
     },
     {
       path: "/users",
