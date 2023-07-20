@@ -19,9 +19,8 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const backup = ref([])
 const createDialog = ref(false)
-const updateDialog = ref(false)
+const updateDialogs = ref([])
 onMounted(async () => {
    user.value = JSON.parse(localStorage.getItem("user"));
   if(!user.value) {
@@ -35,7 +34,7 @@ async function getCouriers() {
   await CourierServices.getCouriers()
     .then((res) => {
       couriers.value = res.data;
-      backup.value = res.data;
+      updateDialogs.value = new Array(res.data.length).fill(false);
     })
     .catch((error) => {
       console.log(error);
@@ -123,13 +122,13 @@ const deleteCourier = async(id,index) => {
                     <td>{{ courier.email }}</td>
                     <td>
                         <div class="btn-group" role="group">
-                             <v-dialog v-model="updateDialog" fullscreen  :scrim="false"  transition="dialog-bottom-transition" >
+                             <v-dialog v-model="updateDialogs[index]" fullscreen  :scrim="false"  transition="dialog-bottom-transition" >
                                 <template v-slot:activator="{ props }">
                                     <v-btn class="ma-2" color="primary" style="margin-left:auto;" v-bind="props"> Update</v-btn>
                                 </template>
                                 <v-card>
                                     <v-toolbar dark color="primary">
-                                    <v-btn icon dark @click="updateDialog = false">
+                                    <v-btn icon dark @click="updateDialogs[index] = false">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                     <v-toolbar-title>Update Courier</v-toolbar-title>

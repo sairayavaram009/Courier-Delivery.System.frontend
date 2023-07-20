@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,watch, computed } from 'vue';
 import DeliveryRequestServices from '../services/DeliveryRequestServices.js';
 import CustomerServices from '../services/CustomerServices.js';
 import TextField from "../components/TextField.vue"
@@ -23,6 +23,9 @@ const customers = ref([])
 const avenue = [1,2,3,4,6,7]
 const street = ["A","B","C","D","E","F","G"]
 const addresses = avenue.flatMap((item) => street.map((item1) =>  "Avenue "+item+" Street "+item1));
+const pickup_customer = ref(null)
+const deliver_street = ref('')
+const delivery_avenue = ref('')
 onMounted(async () => {
   await getCustomers()
   user.value = JSON.parse(localStorage.getItem('user'));
@@ -40,7 +43,9 @@ function closeSnackBar() {
   snackbar.value.value = false;
 }
 const scheduleRequest = async() => {
-  await DeliveryRequestServices.addDeliveryRequest({...delivery_request.value,placed_by: user.value.id, company_id: 1})
+  delivery_request.value.pickup_address = "Avenue "+pickup_customer.value.avenue + " Street "+ pickup_customer.value.street
+  delivery_request.value.delivery_address = "Avenue "+delivery_avenue.value + " Street "+ deliver_street.value
+  await DeliveryRequestServices.addDeliveryRequest({...delivery_request.value,placed_by: user.value.id, company_id: user.value.company_id || 1,customer_id: pickup_customer.value.id})
         .then((response) => {
             snackbar.value.value = true;
             snackbar.value.color = "green";
@@ -56,7 +61,7 @@ const scheduleRequest = async() => {
 }
 
 const estimateCost = async() => {
-   await DeliveryRequestServices.estimateCost({pickup_street: delivery_request.value.pickup_address.charAt(7),pickup_avenue: delivery_request.value.pickup_address.charAt(16),delivery_street: delivery_request.value.delivery_address.charAt(7),delivery_avenue:delivery_request.value.delivery_address.charAt(16)})
+   await DeliveryRequestServices.estimateCost({pickup_street: pickup_customer.value.street,pickup_avenue: ""+pickup_customer.value.avenue,delivery_street: deliver_street.value,delivery_avenue:delivery_avenue.value.toString()})
         .then((response) => {
             const res = response.data
             delivery_request.value = {...delivery_request.value,price: res.price,average_time: res.average_time,distance: res.distance}
@@ -72,6 +77,7 @@ const estimateCost = async() => {
             snackbar.value.text = error.response.data.message || "error while scheduling delivery";
         });
 }
+
 </script>
 
 <template>
@@ -84,18 +90,31 @@ const estimateCost = async() => {
           </v-card-title>
         </v-col>
       </v-row>
-        <select v-model="delivery_request.pickup_address" class="custom-select">
-          <option value=""> Select Pickup Address </option>
-          <option v-for="(address,index) in addresses" :key="index" :value="address"> {{ address }}</option>
-        </select>
-        <select v-model="delivery_request.delivery_address" class="custom-select">
-          <option value=""> Select Delivery Address </option>
-          <option v-for="(address,index) in addresses" :key="index" :value="address"> {{ address }}</option>
-        </select>
-        <select v-model="delivery_request.customer_id" class="custom-select">
+                  <label>Select Customer </label>
+        <select v-model="pickup_customer" class="custom-select">
           <option value=""> Select Customer </option>
-          <option v-for="customer in customers" :key="customer.id" :value="id"> {{ customer.name }}</option>
+          <option v-for="customer in customers" :key="customer.id" :value="customer"> {{ customer.email }}</option>
         </select>
+        <div v-if="pickup_customer">
+             <label>Select Pickup Street </label>
+            <select v-model="pickup_customer.street" class="custom-select">
+            <option v-for="(item,index) in street" :key="index" :value="item"> {{ item }} Street</option>
+            </select>
+            <label>Select Pickup Avenue </label>
+            <select v-model="pickup_customer.avenue" class="custom-select">
+            <option v-for="(item,index) in avenue" :key="index" :value="item"> {{ item }} Avenue</option>
+            </select>
+          <div style="margin-top:10px"/>
+            <label>Select Delivery Street </label>
+            <select v-model="deliver_street" class="custom-select">
+            <option v-for="(item,index) in street" :key="index" :value="item"> {{ item }} Street</option>
+            </select>
+            <label>Select Delivery Avenue </label>
+            <select v-model="delivery_avenue" class="custom-select">
+            <option v-for="(item,index) in avenue" :key="index" :value="item"> {{ item }} Avenue</option>
+            </select>
+          <div style="margin-top:10px"/>
+        </div>
         <label> Select Pickup Date and Time</label>
         <input type="datetime-local" class="custom-select" v-model="delivery_request.pickup_date_time" style="margin-top:10px;" />
         <v-btn variant="flat" color="primary" @click="estimateCost()"

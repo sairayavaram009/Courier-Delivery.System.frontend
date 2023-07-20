@@ -45,7 +45,7 @@ async function addCourier() {
     isLoader.value = true
     await CourierServices.updateCourier({...courier.value})
         .then((response) => {
-            snackbar.value = updateSnackBar("Courier is created successfully!","green")
+            snackbar.value = updateSnackBar("Courier is updated successfully!","green")
             isLoader.value = false
         })
         .catch((error) => {

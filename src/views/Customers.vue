@@ -19,9 +19,8 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const backup = ref([])
 const createDialog = ref(false)
-const updateDialog = ref(false)
+const updateDialogs = ref([])
 onMounted(async () => {
    user.value = JSON.parse(localStorage.getItem("user"));
   if(!user.value) {
@@ -35,7 +34,7 @@ async function getCustomers() {
   await CustomerServices.getCustomers()
     .then((res) => {
       customers.value = res.data;
-      backup.value = res.data;
+      updateDialogs.value = new Array(res.data.length).fill(false);
     })
     .catch((error) => {
       console.log(error);
@@ -112,6 +111,7 @@ const deleteCustomer = async(id,index) => {
                     <th scope="col">Name</th>
                     <th scope="col">Contact Number</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Address</th>
                     <th scope="col">Operations</th>
                     </tr>
                 </thead>
@@ -121,15 +121,16 @@ const deleteCustomer = async(id,index) => {
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.contact }}</td>
                     <td>{{ customer.email }}</td>
+                    <td>{{ customer.avenue }} Avenue, {{ customer.street }} Street</td>
                     <td>
                         <div class="btn-group" role="group">
-                             <v-dialog v-model="updateDialog" fullscreen  :scrim="false"  transition="dialog-bottom-transition" >
+                             <v-dialog v-model="updateDialogs[index]" fullscreen  :scrim="false"  transition="dialog-bottom-transition" >
                                 <template v-slot:activator="{ props }">
                                     <v-btn class="ma-2" color="primary" style="margin-left:auto;" v-bind="props"> Update</v-btn>
                                 </template>
                                 <v-card>
                                     <v-toolbar dark color="primary">
-                                    <v-btn icon dark @click="updateDialog = false">
+                                    <v-btn icon dark @click="updateDialogs[index] = false">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                     <v-toolbar-title>Update Customer</v-toolbar-title>

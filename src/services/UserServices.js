@@ -28,4 +28,8 @@ export default {
   updateUser(user) {
     return apiClient.put("users/" + user.id, user);
   },
+  getCourierBoys() {
+    return apiClient.get("/users/courierBoys");
+
+  }
 };

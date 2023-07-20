@@ -3,6 +3,7 @@ import { onMounted } from "vue";
 import { ref, toRaw } from "vue";
 import { useRouter } from "vue-router";
 import UserServices from "../services/UserServices.js";
+import CompanyServices from "../services/CompanyServices.js";
 
 const router = useRouter();
 const isCreateAccount = ref(false);
@@ -11,29 +12,43 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const role = ref("ADMIN")
+const role = ref("Courier Boy")
 const user = ref({
   firstName: "",
   lastName: "",
   email: "",
   password: "",
-  mobile: ""
+  mobile: "",
+  company_id: 1
 });
+const companies = ref([])
 
 const roleOptions =  [
-        "Admin","Clerk","Delivery Boy"
+        "Clerk","Courier Boy"
       ]
 
 onMounted(async () => {
   if (localStorage.getItem("user") !== null) {
     router.push({ name: "dashboard" });
   }
+  await getCompanies()
 });
 
 const getRoleId = () => {
-  if(role.value === "Admin") return 1
   if(role.value === "Clerk") return 2
+  if(role.value === "Courier Boy") return 3
   return 3
+}
+
+async function getCompanies() {
+  await CompanyServices.getCompanies()
+    .then((res) => {
+      companies.value = res.data;
+      updateDialogs.value = new Array(res.data.length).fill(false);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 async function createAccount() {
@@ -41,10 +56,7 @@ async function createAccount() {
     .then((res) => {
       snackbar.value.value = true;
       snackbar.value.color = "green";
-      if(res.data.is_verified == 0)
-        snackbar.value.text = "Account created successfully, Please contact Admin to verify your Account!";
-      else
-        snackbar.value.text = "Account created successfully!";
+      snackbar.value.text = "Account created successfully!";
       router.push({ name: "login" });
     })
     .catch((error) => {
@@ -63,7 +75,7 @@ async function login() {
       snackbar.value.value = true;
       snackbar.value.color = "green";
       snackbar.value.text = "Login successful!";
-      router.push({ name: "home" });
+      router.push({ name: "dashboard" });
     })
     .catch((error) => {
       console.log(error);
@@ -151,6 +163,12 @@ function closeSnackBar() {
                 :items="roleOptions"
                 required
               ></v-select>
+            <div style="margin-top:10px"/>
+            <label>Select Company</label>
+            <select v-model="user.company_id" class="custom-select">
+            <option v-for="(item,index) in companies" :key="index" :value="item.id"> {{ item.name }}</option>
+            </select>
+          <div style="margin-top:10px"/>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -183,3 +201,14 @@ function closeSnackBar() {
     </div>
   </v-container>
 </template>
+
+<style scoped>
+.custom-select {
+  background-color: #f0f0f0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 50px;
+}
+</style>

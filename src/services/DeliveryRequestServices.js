@@ -26,4 +26,10 @@ export default {
   estimateCost(deliveryRequest) {
     return apiClient.post("deliveryRequests/estimateCost", deliveryRequest);
   },
+  pickitup(id) {
+    return apiClient.post("deliveryrequests/pickitup/" + id);
+  },
+  delivered(id) {
+    return apiClient.post("deliveryrequests/delivered/" + id);
+  },
 };

@@ -38,16 +38,21 @@ const routes = {
     name: "Dashboard",
     icon: "mdi-view-dashboard"
   },
+   {
+    path: "/companies/",
+    name: "Companies",
+    icon: "mdi-account-group"
+  },
   {
     path: "/users/",
     name: "Users",
     icon: "mdi-account-group"
   },
-  {
-    path: "/couriers",
-    name: "Couriers",
-    icon: "mdi-truck"
-  },
+  // {
+  //   path: "/couriers",
+  //   name: "Couriers",
+  //   icon: "mdi-truck"
+  // },
   {
     path: "/customers",
     name: "Customers",
@@ -75,11 +80,11 @@ const routes = {
     name: "Dashboard",
     icon: "mdi-view-dashboard"
     },
-    {
-      path: "/couriers",
-      name: "Couriers",
-    icon: "mdi-truck"
-    },
+    // {
+    //   path: "/couriers",
+    //   name: "Couriers",
+    // icon: "mdi-truck"
+    // },
     {
     path: "/customers",
     name: "Customers",

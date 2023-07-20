@@ -3,7 +3,7 @@ import { onMounted } from "vue";
 import { ref, toRaw } from "vue";
 import { useRouter } from "vue-router";
 import UserServices from "../services/UserServices.js";
-import CustomerServices from "../services/CustomerServices.js";
+import CompanyServices from "../services/CompanyServices.js";
 import Loader from "../components/Loader.vue";
 import TextField from "../components/TextField.vue";
 import ViewSnackBar from "../components/ViewSnackBar.vue";
@@ -15,37 +15,39 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const customer = ref({
+const company = ref({
   name: "",
   contact: "",
   email: "",
 });
+const user = ref(null);
 const isLoader = ref(false);
-onMounted(async () => {
-  const isLoggedIn = JSON.parse(localStorage.getItem("user"));
-    if(!isLoggedIn) {
-    router.push({ name: "login" });
-  }
-});
 const avenue = [1,2,3,4,6,7]
 const street = ["A","B","C","D","E","F","G"]
 
+onMounted(async () => {
+    user.value = JSON.parse(localStorage.getItem("user"));
+    const isLoggedIn = JSON.parse(localStorage.getItem("user"));
+        if(!isLoggedIn) {
+        router.push({ name: "login" });
+    }
+});
 
-async function addCustomer() {
-  if(customer.value.name === "") {
+async function addCompany() {
+  if(company.value.name === "") {
       snackbar.value = updateSnackBar("Name is Empty")
   }
-  else if(customer.value.contact === "") {
+  else if(company.value.contact === "") {
     snackbar.value = updateSnackBar("Contact Number is empty")
   }
-  else if(customer.value.email === "") {
+  else if(company.value.email === "") {
     snackbar.value = updateSnackBar("Email is empty")
   }
   else {
     isLoader.value = true
-    await CustomerServices.addCustomer({...customer.value})
+    await CompanyServices.addCompany({...company.value})
         .then((response) => {
-            snackbar.value = updateSnackBar("Customer is created successfully!","green")
+            snackbar.value = updateSnackBar("Company is created successfully!","green")
             isLoader.value = false
         })
         .catch((error) => {
@@ -62,26 +64,26 @@ async function addCustomer() {
     <div id="body">
       <v-card class="rounded-lg elevation-5">
         <div style="display:flex;" class="heading">
-          <v-card-title class="headline mb-2">Create Customer </v-card-title>
+          <v-card-title class="headline mb-2">Create Company </v-card-title>
         </div>
         <Loader v-if="isLoader" />
         <v-card-text v-else>
-          <TextField class="md-3" id="name" title="First Name" :value="customer.name" @update:value="customer.name = $event"/>
-          <TextField class="md-3" id="contact" title="Contact Number" :value="customer.contact" @update:value="customer.contact = $event"/>
-          <TextField class="md-3" id="email" title="Email" :value="customer.email" @update:value="customer.email = $event"/>
-          <label>Select Street </label>
-            <select v-model="customer.street" class="custom-select">
+          <TextField class="md-3" id="name" title="Name" :value="company.name" @update:value="company.name = $event"/>
+          <TextField class="md-3" id="contact" title="Contact Number" :value="company.contact" @update:value="company.contact = $event"/>
+          <TextField class="md-3" id="email" title="Email" :value="company.email" @update:value="company.email = $event"/>
+            <label>Select Street </label>
+            <select v-model="company.street" class="custom-select">
             <option v-for="(item,index) in street" :key="index" :value="item"> {{ item }} Street</option>
             </select>
             <label>Select Avenue </label>
-            <select v-model="customer.avenue" class="custom-select">
+            <select v-model="company.avenue" class="custom-select">
             <option v-for="(item,index) in avenue" :key="index" :value="item"> {{ item }} Avenue</option>
             </select>
           <div style="margin-top:10px"/>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn variant="flat" color="primary" @click="addCustomer()">Create</v-btn>
+          <v-btn variant="flat" color="primary" @click="addCompany()">Create</v-btn>
         </v-card-actions>
       </v-card>
       <ViewSnackBar :snackbar="snackbar"/>
