@@ -6,6 +6,7 @@ import { ref } from "vue";
 import Loader from "../components/Loader.vue";
 import ViewSnackBar from "../components/ViewSnackBar.vue";
 import { updateSnackBar } from "../common"
+import html2pdf from 'html2pdf.js';
 
 const props = defineProps({
   deliveryRequest: Object,
@@ -68,6 +69,87 @@ const delivered = async() => {
       console.log(error);
       snackbar.value = updateSnackBar(error.response.data.message)
     });
+}
+
+const download = () =>{
+  const invoice = deliveryRequest.value
+      const pdfFormat = `
+         <html>
+        <head>
+          <style>
+          table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+          }
+          table {
+              width: 80%;
+          }
+          td {
+              width: 80%;
+              padding: 10px;
+          }
+          th {
+              padding-left: 10px;
+          }
+          .flex {
+              display: flex;
+              justify-content: space-around;
+          }
+          </style>
+        </head>
+        <body>
+          <h4>Invoice for Order ID: ${invoice.id}</h4>
+          <div class="flex">
+          <table>
+                <tr>
+                <th>Price to Deliver</th>
+                <td> ${ invoice.price}</td>
+                </tr>
+                <tr>
+                <tr>
+                <th>Price to Deliver</th>
+                <td> ${ invoice.delivery_status}</td>
+                </tr>
+                <tr>
+                <th>Distance</th>
+                <td> ${ invoice.distance } Miles</td>
+                </tr>
+                <tr>
+                <th>Order Created At</th>
+                <td> ${ invoice.createdAt } </td>
+                </tr>
+                <tr>
+                <th>Picked up At</th>
+                <td> ${ invoice.pickedup_date_time } </td>
+                </tr>
+                <tr>
+                 <th>Delivered in time</th>
+                <td> ${ invoice.delivered_date_time } </td>
+                </tr>
+                 <tr>
+                 <th>Customer Details</th>
+                <td> 
+                    <p> Name - ${ invoice.customer_details.name}<br/>
+                     Email - ${ invoice.customer_details.email} <br/>
+                    Mobile - ${ invoice.customer_details.contact}
+                </td>
+                </tr>
+            </table>
+            </div>
+        </body>
+      </html>
+      `;
+
+      const options = {
+        margin: [10, 10],
+        filename: 'invoice.pdf',
+        image: { type: 'jpeg', quality: 0.98 }, 
+        html2canvas: { scale: 2 }, 
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      };
+
+      // Generate the PDF from the HTML content
+      html2pdf().from(pdfFormat).set(options).save();
 }
 </script>
 
@@ -164,8 +246,12 @@ const delivered = async() => {
                         </div> 
                     </td>
                 </tr>
-
-                
+                <tr v-if="deliveryRequest.delivered_date_time ">
+                <th>Invoice</th>
+                <td> 
+                  <v-btn variant="flat" color="primary" style="margin-right:10px;" @click="download()">Click here to download</v-btn>
+                </td>
+                </tr>           
             </v-table>
 
         </div>

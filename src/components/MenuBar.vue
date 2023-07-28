@@ -130,7 +130,7 @@ const routes = {
         theme="dark"
         permanent
       >
-        <v-list color="transparent">
+        <v-list>
           <v-list-item v-for="(item,index) in routes[user.role_id]" :key="index" :prepend-icon="item.icon" :title="item.name" :to="item.path"></v-list-item>
         </v-list>
         <template v-slot:append v-if="user !=null">

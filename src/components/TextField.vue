@@ -22,8 +22,8 @@ const handleChange = (event) => {
 
 <template>
   <div :class="className" style="margin-bottom: 10px">
+    <label>{{ title }}</label>
     <v-text-field
-      :label="title"
       variant="outlined"
       :value="value"
       :disabled="disabled"

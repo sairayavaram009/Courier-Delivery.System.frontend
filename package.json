@@ -31,7 +31,8 @@
     "vue-router": "^4.2.2",
     "vuetify": "^3.3.0",
     "vuex": "^4.0.2",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "html2pdf.js": "^0.10.1"
   },
   "devDependencies": {
     "@mdi/js": "^7.0.96",
