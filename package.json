@@ -32,7 +32,8 @@
     "vuetify": "^3.3.0",
     "vuex": "^4.0.2",
     "webfontloader": "^1.6.28",
-    "html2pdf.js": "^0.10.1"
+    "html2pdf.js": "^0.10.1",
+    "vue-chartjs": "^5.2.0"
   },
   "devDependencies": {
     "@mdi/js": "^7.0.96",
