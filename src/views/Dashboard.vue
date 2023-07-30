@@ -131,6 +131,14 @@ const getUsers = (data) =>{
                     {{ dashboard.courierBoyBonus }} points
                 </td>
             </tr>
+            <tr>
+                <th>
+                    Total Customers
+                </th>
+                <td>
+                {{ dashboard.customerCount}}
+                </td>
+            </tr>
         </v-table>
     </div>
     <div class="text-center" v-else>
