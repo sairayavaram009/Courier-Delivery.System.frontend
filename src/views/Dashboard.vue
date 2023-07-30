@@ -120,7 +120,7 @@ const getUsers = (data) =>{
                    Delivery Requests Amount
                 </th>
                 <td>
-                    {{ dashboard.requestAmount }}
+                   $ {{ dashboard.requestAmount }}
                 </td>
             </tr>
                           <tr>
@@ -128,7 +128,7 @@ const getUsers = (data) =>{
                   Bonus for Courier Boys
                 </th>
                 <td>
-                    {{ dashboard.courierBoyBonus }}
+                    {{ dashboard.courierBoyBonus }} points
                 </td>
             </tr>
         </v-table>
